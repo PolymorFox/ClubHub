@@ -1,0 +1,83 @@
+import { Link } from "react-router"
+import { SquareArrowRightExit } from "lucide-react";
+
+export default function Sidebar({ user, club, navItems }) {
+  return (
+    <>
+      <aside className="hidden w-64 shrink-0 border-r border-slate-200 bg-white md:flex md:flex-col">
+        {/* Club */}
+        <div className="flex h-20 items-center gap-3 border-b border-slate-100 px-6">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-600 text-white">
+            <span className="text-sm font-bold">{club.name[0].toUpperCase()}</span>
+          </div>
+
+          <div className="min-w-0">
+            <p className="truncate text-sm font-semibold">
+              {club.name}
+            </p>
+            <p className="text-xs text-slate-400">
+              {club.description}
+            </p>
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <div className="px-4 py-6">
+          <p className="mb-3 px-3 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+            Club
+          </p>
+
+          <nav className="space-y-1">
+            {navItems.map((item, index) => {
+              const Icon = item.icon;
+
+              return (
+                <button
+                  key={item.label}
+                  className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition ${
+                    index === 0
+                      ? "bg-violet-50 font-semibold text-violet-700"
+                      : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+                  }`}
+                >
+                  <Icon size={17} strokeWidth={1.8} />
+                  {item.label}
+                </button>
+              );
+            })}
+            <Link to="/" className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition text-slate-500 hover:bg-slate-50 hover:text-slate-900">
+              <SquareArrowRightExit size={17} strokeWidth={1.8} />
+              Back
+            </Link>
+          </nav>
+        </div>
+
+        {/* Role */}
+        <div className="mt-auto border-t border-slate-100 p-4">
+          <div className="rounded-xl bg-slate-50 p-4">
+            <p className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
+              Your role
+            </p>
+
+            <div className="mt-2 flex items-center justify-between">
+              <p className="text-sm font-semibold text-violet-700 bg-violet-100 p-1 rounded-lg">{ user.role }</p>
+            </div>
+          </div>
+
+          <div className="mt-4 flex items-center gap-3 px-1">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 text-xs font-semibold">
+              {user.name.split(" ").reduce((acc, cur) => acc += cur[0],"")}
+            </div>
+
+            <div>
+              <p className="text-xs font-semibold">{ user.name }</p>
+              <p className="text-[10px] text-slate-400">
+                { user.position }
+              </p>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </>
+  )
+}
