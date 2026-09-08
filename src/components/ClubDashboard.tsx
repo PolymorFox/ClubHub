@@ -11,13 +11,13 @@ import Sidebar from "./Sidebar";
 
 
 export default function ClubDashboard() {
-  const [user, setUser] = useState({
+  const [user] = useState({
     name: "Avery Chen",
     role: "Admin",
     position: "Prefect",
     permissions: ["create_events", "delete_events", "remove_users", "admit_users"]
   })
-  const [club, setClub] = useState({
+  const [club] = useState({
     name: "Web and App",
     description: "Building web applications of the future",
     memberCount: 25

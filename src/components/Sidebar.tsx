@@ -1,9 +1,25 @@
 import { Link } from "react-router"
 import { SquareArrowRightExit } from "lucide-react";
+import { createPortal } from "react-dom";
+import { useState } from "react";
+function Modal({ isOpen, onClose }) {
+  if (!isOpen) return null;
 
-export default function Sidebar({ user, club, navItems }) {
+  return createPortal(
+    <div className="fixed top-0 bottom-0 left-0 right-0 justify-center flex items-center bg-black/50">
+      <div className="bg-white p-5 rounded-sm">
+        <button onClick={onClose}>Close</button>
+      </div>
+    </div>,
+    document.body
+  );
+}
+
+export default function Sidebar({ user , club , navItems }) {
+  const [modalState, setModalState] = useState(false);
   return (
     <>
+      <Modal isOpen={modalState} onClose={() => setModalState(false)}/>
       <aside className="hidden w-64 shrink-0 border-r border-slate-200 bg-white md:flex md:flex-col">
         {/* Club */}
         <div className="flex h-20 items-center gap-3 border-b border-slate-100 px-6">
@@ -34,11 +50,11 @@ export default function Sidebar({ user, club, navItems }) {
               return (
                 <button
                   key={item.label}
-                  className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition ${
-                    index === 0
+                  className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition ${index === 0
                       ? "bg-violet-50 font-semibold text-violet-700"
                       : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
-                  }`}
+                    }`}
+                    onClick={() => modalState ? setModalState(false) : setModalState(true)}
                 >
                   <Icon size={17} strokeWidth={1.8} />
                   {item.label}
