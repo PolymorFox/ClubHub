@@ -1,27 +1,14 @@
 import {
   Users,
   CalendarDays,
-  ClipboardCheck,
   Megaphone,
   Plus,
   MoreHorizontal,
 } from "lucide-react";
-import { useState } from "react";
-import Sidebar from "./Sidebar";
-
+import { useUser } from "../hooks/useUser";
 
 export default function ClubDashboard() {
-  const [user] = useState({
-    name: "Avery Chen",
-    role: "Admin",
-    position: "Prefect",
-    permissions: ["create_events", "delete_events", "remove_users", "admit_users"]
-  })
-  const [club] = useState({
-    name: "Web and App",
-    description: "Building web applications of the future",
-    memberCount: 25
-  })
+  const { user } = useUser();
 
   const members = [
     {
@@ -43,22 +30,13 @@ export default function ClubDashboard() {
   return (
     <div className="min-h-screen bg-[#f8f8fb] text-slate-950">
       <div className="flex min-h-screen">
-        {/* Sidebar */}
-        <Sidebar user={user} club={club} navItems={[
-          { label: "Overview", icon: Users },
-          { label: "Members", icon: Users },
-          { label: "Attendance", icon: ClipboardCheck },
-          { label: "Events", icon: CalendarDays },
-          { label: "Announcements", icon: Megaphone },
-        ]} />
-
         {/* Main */}
         <main className="flex-1">
           {/* Header */}
           <header className="flex h-20 items-center justify-between border-b border-slate-200 bg-white px-6 lg:px-8">
             <div>
               <h1 className="mt-1 text-xl font-bold tracking-tight">
-                Welcome back, {user.name.split(" ")[0]} 👋
+                Welcome back, {user.name} 👋
               </h1>
             </div>
 
@@ -77,7 +55,7 @@ export default function ClubDashboard() {
               <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <StatCard
                   label="Total members"
-                  value={club.memberCount}
+                  value="25"
                   icon={Users}
                   change="+12 this month"
                 />
