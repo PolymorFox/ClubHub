@@ -1,16 +1,61 @@
 import {
   Users,
   CalendarDays,
-  Megaphone,
   Plus,
   MoreHorizontal,
+  Home,
 } from "lucide-react";
 import { useUser } from "../hooks/useUser";
+import { Link } from "react-router";
+import { useState } from "react";
+import MemberList from "./MemberList";
+import StatCard from "./StatCard";
+import Announcement from "./Annoucement";
+
+export type Member = {
+   name: string,
+   role: string,
+   initials: string,
+}
+
+function InfoPill({ children }) {
+  return (
+    <span className="rounded-lg bg-slate-50 px-3 py-1.5 text-xs text-slate-500">
+      {children}
+    </span>
+  );
+}
+
+function SectionHeader({
+  title,
+  subtitle,
+  action,
+}: {
+  title: string,
+  subtitle: string,
+  action: string,
+}) {
+  return (
+    <div className="flex items-center justify-between border-b border-slate-100 px-6 py-5">
+      <div>
+        <h2 className="text-sm font-semibold">{title}</h2>
+        <p className="mt-1 text-xs text-slate-400">
+          {subtitle}
+        </p>
+      </div>
+
+      {action === "Search" ? null : (
+        <button className="text-xs font-semibold text-violet-600 hover:text-violet-700">
+          {action}
+        </button>
+      )}
+    </div>
+  );
+}
 
 export default function ClubDashboard() {
   const { user } = useUser();
-
-  const members = [
+  const [members] = useState<Member[]>([
     {
       name: "Jordan Lee",
       role: "Member",
@@ -26,7 +71,8 @@ export default function ClubDashboard() {
       role: "Member",
       initials: "RB",
     },
-  ];
+  ]);
+  const [memberSearchQuery, setMemberSearchQuery] = useState<string>("");
   return (
     <div className="min-h-screen bg-[#f8f8fb] text-slate-950">
       <div className="flex min-h-screen">
@@ -45,6 +91,9 @@ export default function ClubDashboard() {
                 <Plus size={16} />
                 Create event
               </button>
+              <Link to="/">
+                <Home className="text-gray-400 mt-1"/>
+              </Link>
             </div>
           </header>
 
@@ -52,7 +101,7 @@ export default function ClubDashboard() {
           <div className="p-6 lg:p-8">
             <div className="mx-auto max-w-7xl">
               {/* Stats */}
-              <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <section className="grid gap-4 grid-cols-2">
                 <StatCard
                   label="Total members"
                   value="25"
@@ -66,39 +115,22 @@ export default function ClubDashboard() {
                   icon={CalendarDays}
                   change="3 this week"
                 />
-
-                <StatCard
-                  label="Announcements"
-                  value="14"
-                  icon={Megaphone}
-                />
               </section>
 
               {/* Main grid */}
               <div className="mt-6">
-                {/* Upcoming event */}
+                {/* Club Info */}
                 <section className="rounded-2xl border border-slate-200 bg-white">
-                  <div className="flex items-center justify-between border-b border-slate-100 px-6 py-5">
-                    <div>
-                      <h2 className="text-sm font-semibold">
-                        Upcoming event
-                      </h2>
-                      <p className="mt-1 text-xs text-slate-400">
-                        Your next club activity
-                      </p>
-                    </div>
-                  </div>
-
                   <div className="p-6">
                     <div className="flex flex-col gap-5 sm:flex-row">
                       {/* Date */}
                       <div className="flex h-15 w-10 shrink-0 flex-col items-center justify-center rounded-sm">
                         <span className="text-[11px] font-semibold uppercase text-violet-500">
-                          May
+                          {new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date())}
                         </span>
 
                         <span className="text-2xl font-bold text-violet-700">
-                          24
+                          {new Date().getDate()}
                         </span>
                       </div>
 
@@ -106,12 +138,11 @@ export default function ClubDashboard() {
                         <div className="flex items-start justify-between gap-3">
                           <div>
                             <h3 className="text-lg font-bold">
-                              Web Development Workshop
+                              Web and App Club
                             </h3>
 
                             <p className="mt-2 text-sm text-slate-500">
-                              Learn the fundamentals of modern web
-                              development with a hands-on workshop.
+                              Building web applications of the futuure
                             </p>
                           </div>
 
@@ -121,9 +152,7 @@ export default function ClubDashboard() {
                         </div>
 
                         <div className="mt-5 flex flex-wrap gap-2">
-                          <InfoPill>Saturday, May 24</InfoPill>
-                          <InfoPill>2:00 PM</InfoPill>
-                          <InfoPill>Room 204</InfoPill>
+                          <InfoPill>Meetings every day Thursday, last two periods</InfoPill>
                         </div>
                       </div>
                     </div>
@@ -136,8 +165,8 @@ export default function ClubDashboard() {
                 {/* Announcements */}
                 <section className="rounded-2xl border border-slate-200 bg-white">
                   <SectionHeader
-                    title="Announcements"
-                    subtitle="Recent updates for members"
+                    title="Events"
+                    subtitle="Upcoming events and plans"
                     action="View all"
                   />
 
@@ -165,39 +194,20 @@ export default function ClubDashboard() {
                 {/* Members */}
                 <section className="rounded-2xl border border-slate-200 bg-white">
                   <SectionHeader
-                    title="Recent members"
-                    subtitle="Latest people to join your club"
-                    action="View directory"
+                    title="Members"
+                    subtitle="All club members"
+                    action="Search"
                   />
-
-                  <div className="divide-y divide-slate-100">
-                    {members.map((member) => (
-                      <div
-                        key={member.name}
-                        className="flex items-center justify-between px-6 py-4"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-[10px] font-semibold">
-                            {member.initials}
-                          </div>
-
-                          <div>
-                            <p className="text-sm font-semibold">
-                              {member.name}
-                            </p>
-
-                            <p className="text-xs text-slate-400">
-                              {member.role}
-                            </p>
-                          </div>
-                        </div>
-
-                        <span className="text-xs text-slate-400">
-                          Joined recently
-                        </span>
+                  {/* Filter users */}
+                  <label htmlFor="search" className="block mb-2.5 text-sm font-medium text-heading sr-only ">Search</label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 inset-s-0 flex items-center ps-3 pointer-events-none">
+                      <svg className="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/></svg>
                       </div>
-                    ))}
+                      <input onChange={(e) => setMemberSearchQuery(e.target.value)} type="search" id="search" className="block w-full p-3 ps-9 bg-neutral-secondary-medium text-heading text-sm rounded-base focus:ring-brand shadow-xs placeholder:text-body" placeholder="Search" />
                   </div>
+
+                  <MemberList members={members} query={memberSearchQuery} />
                 </section>
               </div>
             </div>
@@ -208,95 +218,4 @@ export default function ClubDashboard() {
   );
 }
 
-/* ---------------- Components ---------------- */
-
-function StatCard({
-  label,
-  value,
-  icon: Icon,
-}) {
-  return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5">
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-xs font-medium text-slate-400">
-            {label}
-          </p>
-
-          <p className="mt-2 text-2xl font-bold tracking-tight">
-            {value}
-          </p>
-        </div>
-
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-violet-50 text-violet-600">
-          <Icon size={17} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function InfoPill({ children }) {
-  return (
-    <span className="rounded-lg bg-slate-50 px-3 py-1.5 text-xs text-slate-500">
-      {children}
-    </span>
-  );
-}
-
-function Metric({ label, value }) {
-  return (
-    <div>
-      <p className="text-lg font-bold">{value}</p>
-      <p className="text-[10px] text-slate-400">{label}</p>
-    </div>
-  );
-}
-
-function SectionHeader({
-  title,
-  subtitle,
-  action,
-}) {
-  return (
-    <div className="flex items-center justify-between border-b border-slate-100 px-6 py-5">
-      <div>
-        <h2 className="text-sm font-semibold">{title}</h2>
-        <p className="mt-1 text-xs text-slate-400">
-          {subtitle}
-        </p>
-      </div>
-
-      <button className="text-xs font-semibold text-violet-600 hover:text-violet-700">
-        {action}
-      </button>
-    </div>
-  );
-}
-
-function Announcement({
-  title,
-  description,
-  time,
-}) {
-  return (
-    <div className="flex gap-3 px-6 py-4">
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-violet-50 text-violet-600">
-        <Megaphone size={15} />
-      </div>
-
-      <div className="min-w-0 flex-1">
-        <div className="flex items-start justify-between gap-3">
-          <p className="text-xs font-semibold">{title}</p>
-          <span className="shrink-0 text-[10px] text-slate-400">
-            {time}
-          </span>
-        </div>
-
-        <p className="mt-1 text-[11px] leading-5 text-slate-400">
-          {description}
-        </p>
-      </div>
-    </div>
-  );
-}
+// Fuck you ChatGPT

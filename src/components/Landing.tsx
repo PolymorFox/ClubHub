@@ -55,7 +55,7 @@ const [role] = useState("user")
 
             <div>
               <p className="text-lg font-bold tracking-tight">
-                Clubhouse
+                ClubHub
               </p>
               <p className="text-xs text-slate-400">
                 Your club, organized.

@@ -3,7 +3,6 @@ import { createContext, useContext, useState, type ReactNode } from 'react';
 type User = {
   name: string,
   role: string,
-  position: string,
   permissions: string[]
 };
 
@@ -15,8 +14,7 @@ const UserContext = createContext<{
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User>({
     name: 'Alice',
-    role: "Admin",
-    position: "Prefect",
+    role: "admin",
     permissions: ["create_events", "delete_events", "remove_users", "admit_users"]
   });
   return (
