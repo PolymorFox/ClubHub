@@ -8,10 +8,10 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router"
+import { Link } from "react-router";
 
 export default function LandingPage() {
-const [role] = useState("user")
+  const [role] = useState("user");
 
   const features = [
     {
@@ -42,7 +42,6 @@ const [role] = useState("user")
     { name: "Riley Brown", role: "Member", initials: "RB" },
   ];
 
-
   return (
     <div className="min-h-screen bg-[#fafafa] text-slate-950">
       {/* Navbar */}
@@ -54,12 +53,8 @@ const [role] = useState("user")
             </div>
 
             <div>
-              <p className="text-lg font-bold tracking-tight">
-                ClubHub
-              </p>
-              <p className="text-xs text-slate-400">
-                Your club, organized.
-              </p>
+              <p className="text-lg font-bold tracking-tight">ClubHub</p>
+              <p className="text-xs text-slate-400">Your club, organized.</p>
             </div>
           </div>
 
@@ -67,16 +62,23 @@ const [role] = useState("user")
             <a href="#features" className="hover:text-slate-950">
               Features
             </a>
-            <Link to="/dashboard" className="hover:text-slate-950">Manage Club</Link>
-            {role === "admin" && (<a href="#access" className="hover:text-slate-950">
-              Manage Clubs
-            </a>)}
+            <Link to="/dashboard" className="hover:text-slate-950">
+              Manage Club
+            </Link>
+            {role === "admin" && (
+              <a href="#access" className="hover:text-slate-950">
+                Manage Clubs
+              </a>
+            )}
           </nav>
 
           <div className="flex items-center gap-3">
-            <button className="hidden px-4 py-2 text-sm font-medium text-slate-600 sm:block">
+            <Link
+              to="/login"
+              className="hidden px-4 py-2 text-sm font-medium text-slate-600 sm:block"
+            >
               Log in
-            </button>
+            </Link>
 
             <button className="rounded-lg bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800">
               Get started
@@ -106,8 +108,8 @@ const [role] = useState("user")
 
               <p className="mt-7 max-w-lg text-lg leading-8 text-slate-500">
                 One simple platform to manage members, track attendance,
-                organize events, share announcements, and keep your club
-                running smoothly.
+                organize events, share announcements, and keep your club running
+                smoothly.
               </p>
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -180,12 +182,8 @@ const [role] = useState("user")
                       </div>
 
                       <div className="mt-24 rounded-lg bg-slate-50 p-3">
-                        <p className="text-[10px] text-slate-400">
-                          Role
-                        </p>
-                        <p className="mt-1 text-xs font-semibold">
-                          Executive
-                        </p>
+                        <p className="text-[10px] text-slate-400">Role</p>
+                        <p className="mt-1 text-xs font-semibold">Executive</p>
                       </div>
                     </div>
 
@@ -229,9 +227,7 @@ const [role] = useState("user")
                       <div className="mt-4 grid gap-3 sm:grid-cols w-full">
                         <div className="rounded-xl border border-slate-100 bg-white p-4">
                           <div className="flex items-center justify-between">
-                            <p className="text-xs font-bold">
-                              Upcoming event
-                            </p>
+                            <p className="text-xs font-bold">Upcoming event</p>
                             <CalendarDays
                               size={15}
                               className="text-violet-500"
@@ -259,13 +255,8 @@ const [role] = useState("user")
 
                         <div className="rounded-xl border border-slate-100 bg-white p-4">
                           <div className="flex items-center justify-between">
-                            <p className="text-xs font-bold">
-                              Recent members
-                            </p>
-                            <Users
-                              size={15}
-                              className="text-violet-500"
-                            />
+                            <p className="text-xs font-bold">Recent members</p>
+                            <Users size={15} className="text-violet-500" />
                           </div>
 
                           <div className="mt-3 space-y-3">
@@ -317,10 +308,7 @@ const [role] = useState("user")
         </section>
 
         {/* Features */}
-        <section
-          id="features"
-          className="border-y border-slate-200 bg-white"
-        >
+        <section id="features" className="border-y border-slate-200 bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16">
             <div className="mx-auto max-w-2xl text-center">
               <p className="text-sm font-semibold text-violet-600">
@@ -330,8 +318,8 @@ const [role] = useState("user")
                 Everything your club needs.
               </h2>
               <p className="mt-4 text-slate-500">
-                No spreadsheets. No scattered group chats. Just one
-                simple place to keep your club organized.
+                No spreadsheets. No scattered group chats. Just one simple place
+                to keep your club organized.
               </p>
             </div>
 
@@ -348,9 +336,7 @@ const [role] = useState("user")
                       <Icon size={21} />
                     </div>
 
-                    <h3 className="mt-5 text-sm font-bold">
-                      {feature.title}
-                    </h3>
+                    <h3 className="mt-5 text-sm font-bold">{feature.title}</h3>
 
                     <p className="mt-2 text-xs leading-5 text-slate-500">
                       {feature.description}
@@ -376,8 +362,8 @@ const [role] = useState("user")
             </h2>
 
             <p className="mx-auto mt-5 max-w-xl text-sm leading-6 text-slate-400">
-              Give your members a better experience and your executives
-              the tools they need to keep everything running smoothly.
+              Give your members a better experience and your executives the
+              tools they need to keep everything running smoothly.
             </p>
 
             <button className="mt-8 inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 transition hover:bg-slate-100">
