@@ -12,13 +12,6 @@ export default function SignUp() {
 
     setLoading(true);
     try {
-      // Replace with your API call
-      // await fetch("/api/auth/signup", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(form),
-      // });
-      // router.push("/dashboard");
     } catch {
       setError("Something went wrong. Try again.");
     } finally {
