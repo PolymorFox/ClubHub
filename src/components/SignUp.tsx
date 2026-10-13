@@ -1,17 +1,42 @@
 import { useAuth } from "../hooks/useAuth";
-import { useState } from "react";
+import { useState, type SyntheticEvent } from "react";
 
 export default function SignUp() {
   //   const { user, login, logout } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e: any) {
+  async function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
     setError("");
 
+    const target = e.target as typeof e.target & {
+      name: { value: string };
+      school: { value: string };
+      email: { value: string };
+      password: { value: string };
+    };
+
     setLoading(true);
     try {
+      const response = await fetch("http://localhost:3000/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: target.name.value,
+          school: target.school.value,
+          email: target.email.value,
+          password: target.password.value,
+        }),
+      });
+      if (!response.ok) {
+        // In this case of network issues and not a db error
+        setError("Something went wrong. Try again.");
+      } else if (response.ok) {
+        alert("User created successfully");
+      }
     } catch {
       setError("Something went wrong. Try again.");
     } finally {
@@ -37,6 +62,7 @@ export default function SignUp() {
               Full name
             </label>
             <input
+              required
               id="name"
               name="name"
               type="text"
@@ -50,6 +76,7 @@ export default function SignUp() {
               Email
             </label>
             <input
+              required
               id="email"
               name="email"
               type="email"
@@ -63,6 +90,7 @@ export default function SignUp() {
               School
             </label>
             <input
+              required
               id="school"
               name="school"
               type="text"
@@ -79,6 +107,7 @@ export default function SignUp() {
               Password
             </label>
             <input
+              required
               id="password"
               name="password"
               type="password"
