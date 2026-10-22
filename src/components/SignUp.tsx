@@ -1,14 +1,21 @@
 import { useAuth } from "../hooks/useAuth";
 import { useState, type SyntheticEvent } from "react";
+import { useNavigate } from "react-router";
 
 export default function SignUp() {
-  //   const { user, login, logout } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: SyntheticEvent) {
+    const navigate = useNavigate();
     e.preventDefault();
     setError("");
+    type User = {
+      name: string;
+      email: string;
+      password: string;
+      school: string;
+    };
 
     const target = e.target as typeof e.target & {
       name: { value: string };
@@ -31,11 +38,18 @@ export default function SignUp() {
           password: target.password.value,
         }),
       });
-      if (!response.ok) {
-        // In this case of network issues and not a db error
-        setError("Something went wrong. Try again.");
-      } else if (response.ok) {
-        alert("User created successfully");
+      if (response.ok) {
+        setError("");
+        const { login } = useAuth();
+        const user: User = {
+          name: target.name.value,
+          school: target.school.value,
+          email: target.email.value,
+          password: target.password.value,
+        };
+        login(user);
+        // Navigate to the /dashboard route
+        navigate("/dashboard");
       }
     } catch {
       setError("Something went wrong. Try again.");
