@@ -10,13 +10,6 @@ export default function SignUp() {
     const navigate = useNavigate();
     e.preventDefault();
     setError("");
-    type User = {
-      name: string;
-      email: string;
-      password: string;
-      school: string;
-    };
-
     const target = e.target as typeof e.target & {
       name: { value: string };
       school: { value: string };
@@ -41,7 +34,7 @@ export default function SignUp() {
       if (response.ok) {
         setError("");
         const { login } = useAuth();
-        const user: User = {
+        const user = {
           name: target.name.value,
           school: target.school.value,
           email: target.email.value,
