@@ -1,8 +1,11 @@
 import { useState, type SyntheticEvent } from "react";
 import { Link } from "react-router";
+import { useNavigate } from "react-router";
+import { ArrowLeft } from "lucide-react";
 export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const nav = useNavigate();
 
   async function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
@@ -50,6 +53,11 @@ export default function Login() {
           <p className="text-sm text-gray-600 text-center mb-6">
             Join your school's clubs in one place.
           </p>
+
+          {/* Back button */}
+          <div className="absolute top-3 left-3 bg-gray-300 p-2.5 rounded-4xl">
+            <ArrowLeft onClick={() => nav("/")} size={32} />
+          </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
